@@ -10,7 +10,8 @@
 #include <cassert>
 #include <fstream>
 
-// playing with git
+// There is something wrong. If two subsequent char are non alpha then only the first is deleted
+// Problem probably lies is the fact the iterator skips a step because seq got shorter after deleting.
 
 int main(int argc, const char * argv[]) {
     
