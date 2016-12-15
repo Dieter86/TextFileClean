@@ -10,10 +10,10 @@
 #include <cassert>
 #include <fstream>
 
-// There is something wrong. If two subsequent char are non alpha then only the first is deleted
-// Problem probably lies is the fact the iterator skips a step because seq got shorter after deleting.
 
 int main(int argc, const char * argv[]) {
+    
+    
     
     std::cout << "Enter file path \n" ;
     std::string filePath;
@@ -24,39 +24,43 @@ int main(int argc, const char * argv[]) {
     assert(reader.is_open());
     std::string text = "";
     std::string line ;
-    while(!reader.eof()){
+        while(!reader.eof()){
         
         std::getline(reader,line);
-        for (std::string::iterator c=line.begin(); c<=line.end();c++){
+        std::string newLine="";
+
+        for (std::string::iterator c=line.begin(); c!=line.end();c++){
             
-            
-            if(isalpha(*c) || *c==' '){
+        
+            if(isalpha(*c)){
                 
-                *c=tolower(*c);
+                std::string letter(1,tolower(*c));
+                newLine.append(letter);
                 
             }
-            else {
+            
+            if (*newLine.end()!=' ' && *c == ' ' ){
                 
-                line.erase(c);
+                newLine.append(" ");
             }
+        
             
         }
-        
-        
-        text.append(line);
-        text.append(" ");
-        
-        
-    }
+               if (line.length()!=0) {
+                text.append(newLine);
+                text.append(" ");
+               }
+            
+        }
     
     reader.close();
     
     std::ofstream writer(filePath);
     assert(writer.is_open());
     writer << text;
-    
-    
     writer.close();
-
+    
     return 0;
+
 }
+
